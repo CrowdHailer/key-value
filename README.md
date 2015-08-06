@@ -62,3 +62,45 @@ The current environment can be accessed by using the `Mix.env/0` function which 
 Mix.env
 # :staging
 ```
+
+### Agent
+
+Agents are one of the abstractions that come with elixir and OTP.
+Their purpose is to store state that might be accessed by more than one process or by a single process and different points in time.
+They are a simple server implementation that has an API to set and retrieve state.
+
+The agent server is a `GenServer` that uses the `Agent.Server` [module](https://github.com/elixir-lang/elixir/blob/master/lib/elixir/lib/agent/server.ex)
+Most messages passed to the Agent are calls this means that the call is blocking until the state value is returned.
+
+Agents are created and modified with functions and not values. These functions are evaluated in the Agent server process
+
+agent start function executed immediately and not re-executed for subsequent calls
+```elixir
+{:ok, agent} = Agent.start fn -> :calendar.local_time() end
+```
+
+##### Considerations
+*Copied from the Agent source*
+
+Note that agents still provide a segregation between the
+client and server APIs, as seen in GenServers. In particular,
+all code inside the function passed to the agent is executed
+by the agent. This distinction is important because you may
+want to avoid expensive operations inside the agent, as it will
+effectively block the agent until the request is fulfilled.
+Consider these two examples:
+```elixir
+# Compute in the agent/server
+def get_something(agent) do
+  Agent.get(agent, fn state -> do_something_expensive(state) end)
+end
+# Compute in the agent/client
+def get_something(agent) do
+  Agent.get(agent, &(&1)) |> do_something_expensive()
+end
+```
+The first function blocks the agent. The second function copies
+all the state to the client and then executes the operation in the
+client. The difference is whether the data is large enough to require
+processing in the server, at least initially, or small enough to be
+sent to the client cheaply.
