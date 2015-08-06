@@ -124,3 +124,9 @@ casts are asynchronous, they also do not guarantee delivery of the message
 Links are bi-directional.
 If you link two process and one of them crashes, the other side will crash too (unless it is trapping exits).
 A monitor is uni-directional: only the monitoring process will receive notifications about the monitored one.
+
+##### GenEvent
+GenEvent is also a server implementation and can store state.
+
+Broadcasts messages to one or more handlers synchronously or asynchronously.
+`sync_notify/2` and `notify/2` are analogous to `call/2` and `cast/2` in GenServer and using `sync_notify/2` is generally recommended for the backpressure.
