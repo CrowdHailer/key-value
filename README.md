@@ -104,3 +104,18 @@ all the state to the client and then executes the operation in the
 client. The difference is whether the data is large enough to require
 processing in the server, at least initially, or small enough to be
 sent to the client cheaply.
+
+### GenServer
+
+Stands for generic server and is a behaviour module for implementing the server of a client-server relation.
+The GenServer process runs a module, the module should start with `use GenServer`.
+Desired behaviour is implemented by adding the `handle_call/3` and `handle_cast/2` methods.
+
+The server callbacks are described separate to the module documentation, [here](http://elixir-lang.org/docs/stable/elixir/#!GenServer.html).
+
+##### Callbacks
+
+calls are synchronous and should be used by default.
+The fact they block is a useful back pressure mechanism.
+
+casts are asynchronous, they also do not guarantee 
