@@ -118,4 +118,9 @@ The server callbacks are described separate to the module documentation, [here](
 calls are synchronous and should be used by default.
 The fact they block is a useful back pressure mechanism.
 
-casts are asynchronous, they also do not guarantee 
+casts are asynchronous, they also do not guarantee delivery of the message
+
+##### monitor vs link
+Links are bi-directional.
+If you link two process and one of them crashes, the other side will crash too (unless it is trapping exits).
+A monitor is uni-directional: only the monitoring process will receive notifications about the monitored one.
