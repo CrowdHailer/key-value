@@ -148,3 +148,14 @@ Mix by defaults starts an application with type `:normal`
 Mix separates the concept of projects and applications.
 Applications are from OTP and can be started and stopped at runtime.
 Projects are from Mix and form a single codebase, single repository.
+
+### ETS (Erlang Term Storage)
+When creating an ETS table, two arguments are required: the table name and a set of options.
+This module is an interface to the Erlang built-in term storage BIFs(Built In Functions (*I think*)).
+Data is organized as a set of dynamic tables, which can store tuples.
+Each table is created by a process. When the process terminates, the table is automatically destroyed.
+
+The defaults options of a new table are `:set` and `:protected`.
+The documentation on options is [here](http://www.erlang.org/doc/man/ets.html#new-2)
+The ets table is a database and so mutable.
+References can be passed rather than values as was required with the `HashDict`.
