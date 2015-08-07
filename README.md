@@ -125,8 +125,26 @@ Links are bi-directional.
 If you link two process and one of them crashes, the other side will crash too (unless it is trapping exits).
 A monitor is uni-directional: only the monitoring process will receive notifications about the monitored one.
 
-##### GenEvent
+### GenEvent
 GenEvent is also a server implementation and can store state.
 
 Broadcasts messages to one or more handlers synchronously or asynchronously.
 `sync_notify/2` and `notify/2` are analogous to `call/2` and `cast/2` in GenServer and using `sync_notify/2` is generally recommended for the backpressure.
+
+### Supervisor and Application
+
+When using the `Supervisor` behaviour `Supervisor.Spec` is also imported.
+The `Supervisor.Spec` defines the `supervise/2`, `supervisor/3` and `worker/3` functions.
+
+THe worker specification is given the module to start, with arguments and optional settings. worker(module, args, options \\ [])
+By default the worker process is started by calling the `start_link` function.
+The args passed in should be in an array to allow multiple arguments.
+Workers are started in the order they are defined in the list of children
+
+In Mix the mod key sets the module to be started and any arguments that need to be passed to it.
+Mix by defaults starts an application with type `:normal`
+
+##### Projects vs Applications
+Mix separates the concept of projects and applications.
+Applications are from OTP and can be started and stopped at runtime.
+Projects are from Mix and form a single codebase, single repository.
